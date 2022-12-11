@@ -16,7 +16,7 @@
    - IC Validator
    - Understanding of Synopsys EDA Tools for Verification
         - IC Validator (ICV)
-             - ICV DRC
+             * ICV DRC
              - ICV LVS
 4. Designing of an Inverter
    - Library Characterization
