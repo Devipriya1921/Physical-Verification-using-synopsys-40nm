@@ -3,53 +3,58 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-   - VLSI Design Flow chart
-   - Before steps to Physical Verification 
-        - PHYSICAL DESIGN STEPS
-2. Introduction to Physical Verification
-   - DRC (Design Rule Check)
-   - LVS (Layout vs Schematic)
-   - ARC (Antenna Rule Checking)
-   - ERC (Electrical Rule Checking)
-3. Verification Tools
-   - Overview
-   - IC Validator
-   - Understanding of Synopsys EDA Tools for Verification
-        - IC Validator (ICV)
-             - ICV DRC
-             - ICV LVS
-4. Designing of an Inverter
-   - CMOS Inverter Working
-        - Inverter Schematic Diagram
-   - Library Characterization
-        - How Does Library Characterization Work?
-   - Library and Cell View creation
-   - Schematic Creation
-   - Symbol Creation
-5. Analysis of an Inverter
-   - Inverter Static Characteristics or VTC
-   - Inverter Dynamic Characteristics
-   - Creating TestBench
-   - Simulating using PrimeWave
-        - DC Analysis
-   - Netlist and log Display
-        - Synopsys Design Constraints
-        - Netlist run
-        - Log
-6. Layout Creation
-   - Schematic Driven Layout (SDL)
-   - Routing
-7. Physical Verification
-   - DRC
-   - LVS
-        - LVS Flow
-            - Commonly faced LVS issues
-            - IR Drop Analysis
-        - Execution
-   - XOR
-8. Acknowledgements
-9. Author
-10. References
+   - [VLSI Design Flow chart](#vlsi-design-flow-chart)
+   - [KeyTerms](#keyterms)
+   - [Before steps to Physical Verification](#before-steps-to-physical-verification) 
+        - [PHYSICAL DESIGN STEPS](#physical-design-steps)
+2. [Introduction to Physical Verification](#introduction-to-physical-verification)
+   - [DRC (Design Rule Check)](#drc-design-rule-check)
+   - [LVS (Layout vs Schematic)](#lvs-layout-vs-schematic)
+   - [ARC (Antenna Rule Checking)](#arc-antenna-rule-checking)
+   - [ERC (Electrical Rule Checking)](#erc-electrical-rule-checking)
+3. [Verification Tools](#verification-tools)
+   - [Overview](#overview)
+        - [Tools to Invoke](#tools-to-invoke)
+   - [Understanding of Synopsys EDA Tools for Verification](#understanding-of-synopsys-eda-tools-for-verification)
+        - [IC Validator (ICV)](#ic-validator-icv)
+             - [ICV DRC](#icv-drc)
+             - [ICV LVS](#icv-lvs)
+4. [Designing of an Inverter](#designing-of-an-inverter)
+   - [CMOS Inverter Working](#cmos-inverter-working)
+        - [Inverter Schematic Diagram](#inverter-schematic-diagram)
+   - [Library Characterization](#library-characterization)
+        - [How Does Library Characterization Work?](#how-does-library-characterization-work)
+   - [Library and Cell View creation](#library-and-cell-view-creation)
+   - [Schematic Creation](#schematic-creation)
+   - [Symbol Creation](#symbol-creation)
+5. [Analysis of an Inverter](#analysis-of-an-inverter)
+   - [Inverter Static Characteristics or VTC](#inverter-static-characteristics-or-vtc)
+   - [Inverter Dynamic Characteristics](#inverter-dynamic-characteristics)
+   - [Creating TestBench](#creating-testbench)
+   - [Simulation on PrimeWave](#simulation-on-primewave)
+        - [DC Analysis](#dc-analysis)
+   - [Netlist and log Display](#netlist-and-log-display)
+        - [Synopsys Design Constraints](#synopsys-design-constraints)
+        - [Netlist run](#netlist-run)
+        - [Log](#log)
+6. [Layout Creation](#layout-creation)
+   - [Schematic Driven Layout (SDL)](#schematic-driven-layout-sdl)
+        - [Execution](#execution)
+   - [Routing](#routing)
+        - [Execution](#execution)
+7. [Physical Verification-SignOff Checks](#physical-verification-signoff-checks)
+   - [DRC](#drc)
+        - [Execution](#execution)
+   - [LVS](#lvs)
+        - [LVS Flow](#lvs-flow)
+            - [Commonly faced LVS issues](#commonly-faced-lvs-issues)
+            - [IR Drop Analysis](#ir-drop-analysis)
+        - [Execution](#execution)
+   - [XOR](#xor)
+        - [Execution](#execution)
+8. [Acknowledgements](#acknowledgements)
+9. [Author](#author)
+10. [References](#references)
 
 
 ## Overview
@@ -104,6 +109,18 @@ ICs are then tested and are marked as either functional or defective ICs.
 and the application along with the cost and form factor requirements. Packaged types may include Dual In-Line Packaged (DIPs), Pin Grid Array (PGAs), and 
 Ball Grid Arrays (BGAs). After a die is positioned in the package cavity, its pins are connected to the pins of the package, e.g., with wire bonding or 
 solider bumps (flip-chip). The package of the desired design is then sealed and then sent to the end-users or clients.
+
+
+### KeyTerms
+
+- Custom : Is a method of creating integrated circuits that specifies the architecture (Like, Analog) of each individual transistors as well as inter connections (via, contacts).
+- Custom Jobs : Custom Compiler Design Checking and Physical Verification
+- Design Specifications: Customer requirements  PDK file, Input elements, Technology file
+- Schematic Capture: Circuit creation
+- Symbol Creation: Creating the schematic into symbol 
+- Simulation: Pre-Layout Simulation  PrimeWave
+- Layout: SDL, LE(Layout Editor)
+- Parasitic extraction: Extracting the binary coefficient values of resistor and capacitor.
 
 
 ### Before steps to Physical Verification
@@ -291,6 +308,21 @@ whole layout can report errors like “NWELL not connected to VDD.
 - PrimeWave Design Environment also offers powerful Tcl-based scripting capability enabling easy regressions across thousands of corners.
 - For more information you may check at https://www.synopsys.com/implementation-and-signoff/ams-simulation/primewave.html
 
+#### Tools to Invoke
+
+The tools that I had invoked for the labs in terminal are listed below:
+```
+module load primewave
+module load hspice
+module load cx
+module load primesim
+module load icv
+module load customcompiler
+custom_compiler &
+
+The version that I used for invoking all the tools are: 2022.06-SP1
+You may invoke it without mentioning the version, as it will take the latest version available. Else, if you wish to invoke a specific version then you may mention it as follows: module load primewave/2022.06-SP1
+```
 
 
 ### Understanding of Synopsys EDA Tools for Verification
@@ -522,7 +554,7 @@ Follow the steps below in order to get the DC Analysis of an Inverter.
 
 <img width="941" alt="step-9-symbol creation-10-dc analysis" src="https://user-images.githubusercontent.com/83152452/206904064-4fbe8f9e-2698-479d-bfa6-bc2135a543eb.png">
 
-### Simulating using PrimeWave
+### Simulation on PrimeWave
 
 1. Select ``` Tools --> PrimeWave ```
 
@@ -648,6 +680,8 @@ netlist and schematic views are included with the CC layout editor for an intuit
 - Realize, place, route, and edit a physical layout that is DRC- and LVS-correct
 ```
 
+#### Execution
+
 1. ``` Tools --> Check SDL Option ```
 
 <img width="229" alt="step-14-SDL-1" src="https://user-images.githubusercontent.com/83152452/206907605-a3ab1fbf-33dc-4f93-b76e-321e1c67632f.png">
@@ -670,6 +704,21 @@ netlist and schematic views are included with the CC layout editor for an intuit
 
 ### Routing
 
+- Routing is the process of creating physical connections based on logical connectivity. Signal pins are connected by routing metal interconnects. Routed metal paths must meet timing, clock skew, max trans/cap requirements and also physical DRC requirements.
+- In grid based routing system each metal layer has its own tracks and preferred routing direction which are defined in a unified cell in the standard cell library.
+- There are four steps of routing operations:
+1. Global routing
+2. Track assignment
+3. Detail routing
+4. Search and repair
+
+- Global Route assigns nets to specific metal layers and global routing cells. Global route tries to avoid congested global cells while minimizing detours. Global route also avoids pre-routed P/G, placement blockages and routing blockages.
+- Track Assignment (TA) assigns each net to a specific track and actual metal traces are laid down by it. It tries to make long, straight traces to avoid the number of vias. DRC is not followed in TA stage. TA operates on the entire design at once.
+- Detail Routing tries to fix all DRC violations after track assignment using a fixed size small area known as “SBox”. Detail route traverses the whole design box by box until entire routing pass is complete.
+- Search and Repair fixes remaining DRC violations through multiple iterative loops using progressively larger SBox sizes.
+
+#### Execution
+
 1. Click on ``` Tools --> Routing ``` from the window
 
 <img width="167" alt="step-15-routing-1" src="https://user-images.githubusercontent.com/83152452/206907983-34e3733b-ce52-4ef5-8435-05b5c23e6df4.png">
@@ -690,7 +739,7 @@ netlist and schematic views are included with the CC layout editor for an intuit
 
 
 
-## Physical Verification - SignOff Checks
+## Physical Verification-SignOff Checks
 
 ### DRC
 
@@ -746,7 +795,7 @@ Fig4: Distance between inside edge to outside edge.
 <img width="506" alt="11" src="https://user-images.githubusercontent.com/83152452/206917675-2138591a-8bc3-4f40-825d-1ae4783f40ed.png">
 
 
-##### Steps to perform DRC:
+#### Execution
 
 1. Go to ``` Verification --> DRC --> Setup and Run ``` and then the Dialog box will appear.
 
@@ -779,6 +828,19 @@ Check for Layer map file from Custom options tab as shown below if it is not sel
 7. You may check the errors description and try to correct them by looking into the DRC Errors tab in VUE. You can double click on the errors in the error list and check for where the error has occurred.
 
 <img width="431" alt="step-16-DRC-4-errors-3" src="https://user-images.githubusercontent.com/83152452/206908811-ec121466-074a-443a-98c5-5db5ad5d130f.png">
+
+```
+NOTE: The output generated files are listed below,
+
+- dff.LAYOUT_ERRORS  - Short summary on the error status whether is it CLEAN or errors occurred.
+- dff.RESULTS  - ICV Execution (Pathss), Results Summary (Viloations, rules check), Assign Layer Statistics (Utilized layer or unoccupied), Run Configuration (Processing details –CPU, RAM), Performance Statistics (Runtime seconds, memory usage).
+- dff.vue - We can configure and execute a verification run. It easily loads the results and reviews a run summary. Debugs the design by highlighting errors.
+- icv.log and stdout.drc.log - Log information
+- prefs.xml - It contains the details such as cell name, version, library name, path, run dir, etc. 
+- run_details - It is a directory that contains all the rules, tech information that is needed to run the DRC.
+- run_icv.sh - Contains the path related information.
+- stdout.icvVue.log - Contains the color related information of the layout (cells, Blocks, vertical & horizontal routing).
+```
 
 
 ### LVS
@@ -895,8 +957,17 @@ NOTE : When you edit any properties in Layout editor and save it that doesn't ma
 ```
 
 
-
 ### XOR
+
+- Compares and reports differences among polygons, edges, and/or text in two layout databases
+- Comparison methods: XOR (default), NOT, or OUTSIDE
+- Supported layout formats: OpenAccess (default), GDSII, OASIS
+- Checking Area:
+     Design – complete layout
+     Viewport – selected viewport in layout
+     Region – allows user to enter bbox coordinates from layout
+
+#### Execution
 
 1. You can go to ``` Verification --> LVL --> Setup and Run ``` from the Layout editor window. Here XOR operation is implemented on similar cells.
 
@@ -916,17 +987,25 @@ NOTE : When you edit any properties in Layout editor and save it that doesn't ma
 
 
 
+## Acknowledgements
+
+- [Synopsys](https://www.synopsys.com/)
+- [Kunal Ghosh](https://github.com/kunalg123), Co-founder, VSD Corp. Pvt. Ltd.
 
 
 
+## Author
+
+- [A Devipriya](https://github.com/Devipriya1921), B.E (Electronics and Communication Engineering), Bangalore - adevipriya1900@gmail.com
 
 
+## References
 
-
-
-
-
-
+- [Synopsys](https://www.synopsys.com/)
+- [Emad-H](https://github.com/Emad-H/Physical-Verification-using-SKY130#fundamentals-of-design-rule-checking)
+- VLSI Design Cycle - GeeksforGeeks
+- ASIC Physical Design Flow - VLSIFacts
+- CMOS Inverter : Circuit, Working, Characteristics & Its Applications (elprocus.com)
 
 
 
