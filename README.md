@@ -1,8 +1,8 @@
 # Physical Verification (PV) Using Synopsys 40nm
 
-# Contents
+## Table of Contents
 
-1. Overview
+1. [Overview](#overview)
    - VLSI Design Flow chart
    - Before steps to Physical Verification 
         - PHYSICAL DESIGN STEPS
@@ -16,19 +16,24 @@
    - IC Validator
    - Understanding of Synopsys EDA Tools for Verification
         - IC Validator (ICV)
-             * ICV DRC
+             - ICV DRC
              - ICV LVS
 4. Designing of an Inverter
+   - CMOS Inverter Working
+        - Inverter Schematic Diagram
    - Library Characterization
         - How Does Library Characterization Work?
    - Library and Cell View creation
    - Schematic Creation
    - Symbol Creation
 5. Analysis of an Inverter
+   - Inverter Static Characteristics or VTC
+   - Inverter Dynamic Characteristics
    - Creating TestBench
    - Simulating using PrimeWave
         - DC Analysis
    - Netlist and log Display
+        - Synopsys Design Constraints
         - Netlist run
         - Log
 6. Layout Creation
@@ -38,11 +43,13 @@
    - DRC
    - LVS
         - LVS Flow
+            - Commonly faced LVS issues
+            - IR Drop Analysis
         - Execution
    - XOR
-
-
-
+8. Acknowledgements
+9. Author
+10. References
 
 
 ## Overview
@@ -131,11 +138,7 @@ verified, it is sent for physical design flow.
 
 #### PHYSICAL DESIGN STEPS
 
-1. FLOOR-PLANNING: The first step in physical design is floor planning. In this process, the structures are identified which should be placed together meeting 
-the performance and timing requirements. The desire to have everything close to everything else is followed. But based on the area and hierarchy, a suitable 
-floor plan is decided. Floor planning is defined as taking account of macros used in the design, memory, other IP cores and their placement needs, the routing 
-possibilities and also the area of the entire design.  Area and Speed are two factors which can be trade off against one another. Optimizing the design for 
-minimum area  allows the design to use fewer resource and thus increasing the speed of the system.
+1. FLOOR-PLANNING: The first step in physical design is floor planning. In this process, the structures are identified which should be placed together meeting the performance and timing requirements. The desire to have everything close to everything else is followed. But based on the area and hierarchy, a suitable floor plan is decided. Floor planning is defined as taking account of macros used in the design, memory, other IP cores and their placement needs, the routing possibilities and also the area of the entire design.  Area and Speed are two factors which can be trade off against one another. Optimizing the design for minimum area  allows the design to use fewer resource and thus increasing the speed of the system.
 
 As a general rule, data-path benefit most from floor planning, and other logics like state machines, or some random logic are placed to the left section of 
 the place and route software.
@@ -347,6 +350,21 @@ LVS errors can be classified into two main categories:
 
 ## Designing of an Inverter
 
+### CMOS Inverter Working
+
+- The term “CMOS” stands for “complementary-symmetry metal–oxide–semiconductor” which is pronounced as “see mos”. CMOS is a type of MOSFET, where its fabrication process uses complementary & symmetrical P-type & N-type MOSFET pairs for logic functions. 
+- The main CMOS devices characteristics are consumption of low static power & high noise immunity. The inverter is accepted universally as the basic logic gate while performing a Boolean operation on a single i/p variable. 
+- A basic inverter circuit is used to accomplish a logic variable by complementing from A to A’. So, a CMOS inverter is a very simple circuit, designed with two opposite-polarity MOSFETs within a complementary way.
+- The logic element like an inverter reverses the applied input signal. In digital logic circuits, binary arithmetic & switching or logic function’s mathematical manipulation are best performed through the symbols 0 & 1. If the input logic is zero (0) then the output will be high (1) whereas, if the input logic is one (1), then the output will be low (0).
+
+#### Inverter Schematic Diagram
+
+![CMOS-Inverter-Symbol-Truth-Table](https://user-images.githubusercontent.com/83152452/206916149-65b30392-3e6f-4b56-b0b8-fdf89a436890.jpg)
+
+- CMOS inverter definition is a device that is used to generate logic functions is known as CMOS inverter and is the essential component in all integrated circuits. 
+- A CMOS inverter is a FET (field effect transistor), composed of a metal gate that lies on top of oxygen’s insulating layer on top of a semiconductor. These inverters are used in most electronic devices which are accountable for generating data n small circuits.
+
+
 ### Library Characterization
 
 - Cell library characterization is a process of analyzing a circuit using static and dynamic methods to generate models suitable for chip implementation flows.
@@ -454,6 +472,32 @@ For creating the Inverter symbol follow the steps as shown below:
 
 ## Analysis of an Inverter
 
+The characteristics of the CMOS inverter are discussed below.
+
+### Inverter Static Characteristics or VTC
+
+- The quality of the inverter can be measured frequently by using the VTC or voltage transfer curve, which is plotted between input voltage (Vin) and output voltage (Vo). From the following static characteristics, the parameters of devices like gain, operating logic levels & noise tolerance, and noise can be obtained.
+
+![CMOS-Inverter-Symbol-Truth-Table](https://user-images.githubusercontent.com/83152452/206916457-79d0c60e-13aa-4b1c-bc63-60e9f7aff4d3.jpg)
+
+- The VTC or voltage transfer curve looks like an inverted step-function that specifies accurate switching in between ON & OFF however in real devices, a gradual transition region exists. The voltage transfer curve specifies that for less input voltage Vin, the circuit generates high voltage Vout, whereas, for high input, it generates 0 volts.
+- The transition region slope is a measure of quality – steep slopes yield exact switching. The tolerance toward noise can be calculated by evaluating the smallest input to the highest output for every region of ON or OFF operation.
+
+### Inverter Dynamic Characteristics
+
+- The CMOS inverter dynamic characteristics are shown below. So, some of the following formal definitions of different parameters are discussed below. Here, all the percentage (%) values are the steady-state values.
+
+![Voltage-Transfer-Curve](https://user-images.githubusercontent.com/83152452/206916459-78fd0485-a537-470c-9dfa-5ca076bc122c.jpg)
+
+- Rise Time or tr: Rise time is the time used to increase the signal from 10% to 90%.
+- Fall Time or tf: Fall time is the time used to drop the signal from 90% to 10%
+- Edge Rate or trf : It is (tr + tf )/2.
+- The propagation delay from high to low or tpHL: The time used to drop from VOH – 50%.
+- The propagation delay from low to high or tpLH: The time used to increase from 50%- VOL.
+- Propagation Delay or tp: It is (tpHL + tpLH)/2.
+- Contamination Delay or tcd: It is the smallest time from the 50% input crossing to the 50% output crossing.
+
+
 Follow the steps below in order to get the DC Analysis of an Inverter.
 
 ### Creating TestBench
@@ -514,6 +558,28 @@ Follow the steps below in order to get the DC Analysis of an Inverter.
 
 #### DC Analysis
 
+- Analyze DC Characteristics of CMOS Gates by studying an Inverter.
+
+<img width="164" alt="p1" src="https://user-images.githubusercontent.com/83152452/206918784-85237de0-c421-4ee8-a68a-eaa11e910c86.png">
+
+<img width="192" alt="p2" src="https://user-images.githubusercontent.com/83152452/206918783-ba3cf39f-1e7a-494c-bfde-4fb7f136a0af.png">
+
+• DC Analysis:
+– DC value of a signal in static conditions
+
+• DC Analysis of CMOS Inverter:
+– Vin, input voltage
+– Vout, output voltage
+– single power supply, VDD
+– Ground reference
+– find Vout = f(Vin)
+
+• Voltage Transfer Characteristic (VTC):
+– plot of Vout as a function of Vin
+– vary Vin from 0 to VDD (and in reverse!)
+– find Vout at each value of Vin
+
+
 9. DC Analysis of an Inverter:
 
 <img width="950" alt="step-11-waveform-1-dc" src="https://user-images.githubusercontent.com/83152452/206904793-9e6c8e9b-42d9-486d-9efd-32edfe4ffbc1.png">
@@ -521,7 +587,31 @@ Follow the steps below in order to get the DC Analysis of an Inverter.
 
 ### Netlist and log Display
 
+#### Synopsys Design Constraints
+
+- Timing closure is the big whale for most P&R designers. You get it done, and then you can wash your hands off all those annoying designers and get to work cleaning up and beautifying your layout. 
+- So I thought of starting my P&R cheat sheet with an introduction to timing closure, and what best to address than the mighty SDC constraints, the bane of all our existence. You get the SDC right, you win half your battle. But it is not so simple. 
+- SDC you get from the synthesis tool might have very well served its purpose there, but to get it do a pretty good job in layout requires some time spent on understanding and iterating the design.
+
+1. Clock Statements
+2. False path Specifications
+3. Specifying operating conditions
+4. Specifying Ideal Networks – No optimizations required
+5. set_input_delay
+6. set_max_delay
+7. set_driving_cell
+8. set_load
+
+- There are countless other commands in SDC format, but these are the most common. Try to simplify your SDC as much as possible, and you can pin point the errors and issues easier.
+- For more details visit the [Link](https://vlsi.pro/synopsys-design-constraints-sdc/)
+
+
 #### Netlist run
+
+- A netlist is a textfile containing the description of components connection. Component id , what is its value or name and the nodes its pins are connected.
+- Spice netlist is an input file where user writes them and use it for simulation. Also used at the vlsi design where at the end of design phase the netslist is generated from layout and used for verification.
+- Netlist perse is used in the PCB design for layout and routing of tracks.
+- Netlist can be defined as the piece of code, which describe a circuit in textual form for interpretation by computer. Any simulation software uses some kind of textual description which is converted to machine understandable language.
 
 - You can view the netlist file by simply going to ``` Simulation --> Netlist --> Display ``` 
 
@@ -542,16 +632,21 @@ Follow the steps below in order to get the DC Analysis of an Inverter.
 <img width="929" alt="step-13-display log file-2" src="https://user-images.githubusercontent.com/83152452/206906918-5bfb17c5-1fe2-4933-af83-e7e77eb5ef13.png">
 
 
-
-
 ## Layout Creation
 
-Basic Design Rules
+Basic Design Rules:
 
 <img width="953" alt="basic design rules" src="https://user-images.githubusercontent.com/83152452/206907552-fd9fea07-c829-4d6d-a9c6-52f7a5084f6e.png">
 
 ### Schematic Driven Layout (SDL)
 
+- The schematic-driven layout (SDL) flow in CC helps create an optimized layout that is DRC/LVS-correct in less time—without sacrificing layout area. Both 
+netlist and schematic views are included with the CC layout editor for an intuitive SDL working environment, which includes:
+```
+- Schematic view and design browser
+- Advanced layout editor, including rule-driven layout, flight-line guidance and short detection
+- Realize, place, route, and edit a physical layout that is DRC- and LVS-correct
+```
 
 1. ``` Tools --> Check SDL Option ```
 
@@ -595,9 +690,63 @@ Basic Design Rules
 
 
 
-## Physical Verification
+## Physical Verification - SignOff Checks
 
 ### DRC
+
+- Design Rule Check (DRC) determines whether the layout of a chip satisfies a series of recommended parameters called design rules. Design rules are set of parameters provided by semiconductor manufacturers to the designers, in order to verify the correctness of a mask set. 
+- It varies based on semiconductor manufacturing process. These rule set describes certain restrictions in geometry and connectivity to ensure that the design has sufficient margin to take care of any variability in manufacturing process.
+
+- Input files required for DRC
+	• GDS
+	• drc rule deck file
+- Output of DRC
+	• Reports
+
+- Typical DRC rules are :
+
+1. Interior:
+
+Fig1: Distance of interior facing edge for a single layer.
+Fig2: Distance of interior facing edge of two layer.							
+
+![1](https://user-images.githubusercontent.com/83152452/206917639-93e74436-b5b5-4186-8a72-c859432faf24.jpg)
+
+![2](https://user-images.githubusercontent.com/83152452/206917643-37988bf9-4851-4d73-8b25-9b3a35868921.jpg)
+
+2. Exterior:
+
+Fig3: Distance of exterior facing edge of two layer								
+
+![3](https://user-images.githubusercontent.com/83152452/206917647-9d00fd50-0fa9-449f-9ae8-aed06eb044b3.jpg)
+
+![4](https://user-images.githubusercontent.com/83152452/206917651-8938adfd-c29b-40cc-8cab-b6e7bbf7dfc6.jpg)
+
+![5](https://user-images.githubusercontent.com/83152452/206917657-b800068b-948e-47ec-befe-8cf8860f4361.jpg)
+								
+3. Enclosure:
+								
+Fig4: Distance between inside edge to outside edge.                                                                          
+
+![6](https://user-images.githubusercontent.com/83152452/206917661-526ef30d-3af1-4a4e-8683-ca5a4d3644f7.jpg)
+
+![7](https://user-images.githubusercontent.com/83152452/206917665-73d833e4-9fbf-4146-a157-802bbc81fc9d.jpg)
+
+4. Extension:								
+
+Fig4: Distance between inside edge to outside edge.								
+
+![8](https://user-images.githubusercontent.com/83152452/206917666-d67b974e-1afe-4d99-954f-0d766e91ddd6.jpg)
+
+
+<img width="499" alt="9" src="https://user-images.githubusercontent.com/83152452/206917671-29387072-ba34-4890-b544-99cb9e24b85c.png">
+
+<img width="505" alt="10" src="https://user-images.githubusercontent.com/83152452/206917672-0629ea06-e61b-4a92-8e6f-4eda929519c7.png">
+
+<img width="506" alt="11" src="https://user-images.githubusercontent.com/83152452/206917675-2138591a-8bc3-4f40-825d-1ae4783f40ed.png">
+
+
+##### Steps to perform DRC:
 
 1. Go to ``` Verification --> DRC --> Setup and Run ``` and then the Dialog box will appear.
 
@@ -634,10 +783,75 @@ Check for Layer map file from Custom options tab as shown below if it is not sel
 
 ### LVS
 
+DRC only verifies that the given layout satisfies the design rules provided by the fabrication unit. It does not ensure the functionality of layout. Because of this, idea of LVS is orginated. This blog focuses on how LVS works and what all are the common issues faced in LVS.
+
+Input files required for LVS
+    
+	• .v – netlist of the design
+	• GDS – layout database of the design
+	• LVS rule deck
+
+Outputs for LVS
+
+	• reports
+
 
 #### LVS Flow
 
 <img width="589" alt="lvs flow" src="https://user-images.githubusercontent.com/83152452/206909633-7e604d47-cb05-4c69-b0f1-66d7c62326d4.png">
+
+- .v and GDS should be of same stage :
+
+LVS rule deck is a set of code written in Standard Verification Rule Format (SVRF) or TCL Verification Format (TVF). It guides the tool to extract the devices and the connectivity of IC’s. It contains the layer definition to identify the layers used in layout file and to match it with the location of layer in GDS. It also contains device structure definitions.
+
+- LVS check involves three steps :
+
+	1. Extraction: The tool takes GDSII file containing all the layers and uses polygon based approach to determine the components like transistors, diodes, capacitors and resistors and also connectivity information between devices presented in the layout by their layers of construction. All the device layers, terminals of the devices, size of devices, nets, vias and the locations of pins are defined and given an unique identification.
+	
+	2. Reduction: All the defined information is extracted in the form of netlist.
+	
+	3. Comparison: The extracted layout netlist is then compared to the netlist of the same stage using the LVS rule deck. In this stage the number of instances, nets and ports are compared. All the mismatches such as shorts and opens, pin mismatch etc.. are reported. The tools also checks topology and size mismatch.
+
+##### Commonly faced LVS issues
+
+- LVS check includes following comparisons:
+
+	• Number of devices in schematic and its layout
+	• Type of devices in schematic and its layout
+	• Number of nets in schematic and its layout
+
+- Typical errors which can occur during LVS checks are:
+
+	1. Shorts: Shorts are formed, if two or more wires which should not be connected together are connected.
+	2. Opens: Opens are formed, if the wires or components which should be connected together are left floating or partially connected.
+	3. Component mismatch: Component mismatch can happen, if components of different types are used (e.g, LVT cells instead of HVT cells).
+	4. Missing components: Component missing can happen, if an expected component is left out from the layout.
+	5. Parameter mismatch: All components has it’s own properties, LVS tool is configured to compare these properties with some tolerance. If this tolerance is not met, then it will give parameter mismatch.
+
+
+##### IR Drop Analysis
+
+- IR Drop can be defined as the voltage drop in metal wires constituting power grids before it reaches the vdd pins of the cells. IR drop occurs when there are cells with high current requirement or high switching regions. IR drop causes voltage drop which in-turn causes the delaying of the cells causing setup and hold violations. Hold violations cannot be fixed once the chip is fabricated.
+There are two types of IR drop analysis namely:
+Static IR drop analysis :
+	• Calculates the average voltage drop of entire design assuming current drawn across is constant.
+	• As average current is calculated this analysis depends on time period. This analysis is good for signoff checks in older technology.
+
+- Dynamic IR drop analysis :
+	• Depends on switching activity of the logic.
+	• Is vector dependent .
+	• Less dependent on clock period as depends on instantaneous current.
+	• Analysis of peak current demand and highly localized cells.
+
+- Methods to reduce IR drop :
+	• Robust power mesh– Initial power grid is made based on static IR analysis due to late availability of switching activity. If there is IR drop due to some of the clustered cells then adding a strip will make the power mesh more robust.
+   • De-cap– These are decoupling capacitors which are spread across the high switching region to maintain the voltage.
+	• Spacing– If clock cells are clustered and causing IR drop, then by spacing them apart near to different power rails will reduce the IR drop. While    shifting the cell to next power rail, it should be made sure that the power rail is not driving many cells, because adding another cell may give IR drop.
+	• Reducing load– Cells driving more load will be drawing more current. Hence reducing load will reduce IR drop.
+	• Downsizing– Cells of smaller size will draw less current. But the transition of cells should not become worse.
+	• The number of power switches can be increased to reduce IR drop
+	• It should be made sure that all the power pins of macros are properly connected to the power rails.
+
 
 #### Execution
 
